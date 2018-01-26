@@ -10,28 +10,26 @@ namespace QuickMaths
     {
         private static void Main(string[] args)
         {
-            if (args.Length != 1)
-            {
-                Console.WriteLine("Invalid arguments!");
-                return;
-            }
+            Thread.CurrentThread.CurrentCulture = CultureInfo.CreateSpecificCulture("en-US");
 
-            string sourcePath = args[0];
+            foreach (string path in args)
+            {
+                if (!File.Exists(path))
+                {
+                    Console.WriteLine($"Source file does not exist! ({path})");
+                    return;
+                }
 
-            if (!File.Exists(sourcePath))
-            {
-                Console.WriteLine("Source file does not exist!");
-                return;
-            }
+                Console.WriteLine($"---- {path} ----");
 
-            try
-            {
-                Thread.CurrentThread.CurrentCulture = CultureInfo.CreateSpecificCulture("en-US");
-                new Engine(File.ReadAllLines(sourcePath)).Run();
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine("Exception: " + ex.Message + Environment.NewLine + ex.StackTrace);
+                try
+                {
+                    new Engine(File.ReadAllLines(path)).Run();
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine("Exception: " + ex.Message + Environment.NewLine + ex.StackTrace);
+                }
             }
         }
     }
