@@ -111,7 +111,11 @@ namespace QuickMaths
                                     throw new Exception($"Unexpected expression format \"{string.Join(' ', expression)}\"");
                                 }
 
+                                // Evaluate the sub-expression
                                 partValue = EvaluateExpression(expression.Skip(i + 1).Take(end - i - 1));
+
+                                // Skip to the end of the sub-expression
+                                i = end;
                             }
                             // Invalid expression
                             else

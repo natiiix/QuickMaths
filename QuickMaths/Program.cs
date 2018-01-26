@@ -17,11 +17,14 @@ namespace QuickMaths
                 if (!File.Exists(path))
                 {
                     Console.WriteLine($"Source file does not exist! ({path})");
-                    return;
+                    continue;
                 }
 
                 Console.WriteLine($"---- {path} ----");
 
+#if DEBUG
+                new Engine(File.ReadAllLines(path)).Run();
+#else
                 try
                 {
                     new Engine(File.ReadAllLines(path)).Run();
@@ -30,7 +33,12 @@ namespace QuickMaths
                 {
                     Console.WriteLine("Exception: " + ex.Message + Environment.NewLine + ex.StackTrace);
                 }
+#endif
             }
+
+#if DEBUG
+            Console.ReadLine();
+#endif
         }
     }
 }
